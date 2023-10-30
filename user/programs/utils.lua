@@ -147,40 +147,6 @@ end
 
 function boundingBox(bottomLeft, topRight, params)
 
-    --local function reallyComplexCheckingIdk()
-    --    function (pos, facing)
-    --        local nextMove = pos + facing;
-    --        if getAxis(facing) == "x" then
-    --            local withinXBounds = isWithinBounds(nextMove, "x");
-    --            return maybeCall(
-    --                    (pos.x == bottomLeft.x and not withinXBounds) and
-    --                            (
-    --                                    (pos.z == bottomLeft.z and params.atBottomLeftCorner)
-    --                                            or (pos.z == topRight.z and params.atBottomRightCorner)
-    --                                            or params.atBottomEdge
-    --                            ) or (pos.x == topRight.x and not withinXBounds) and
-    --                            (
-    --                                    (pos.z == topRight.z and params.atTopRightCorner)
-    --                                            or (pos.z == bottomLeft.z and params.atTopLeftCorner)
-    --                                            or params.atTopEdge
-    --                            )
-    --            );
-    --        else
-    --            local withinZBounds = isWithinBounds(nextMove, "z");
-    --            if pos.z == bottomLeft.z and not withinZBounds then
-    --                if pos.x == bottomLeft.x then return maybeCall(params.atBottomLeftCorner);
-    --                elseif pos.x == topRight.x then return maybeCall(params.atTopLeftCorner);
-    --                else return maybeCall(params.atLeftEdge); end
-    --            elseif pos.z == topRight.z and not withinZBounds then
-    --                if pos.x == topRight.x then return maybeCall(params.atTopRightCorner);
-    --                elseif pos.x == bottomLeft.x then return maybeCall(params.atBottomRightCorner);
-    --                else return maybeCall(params.atRightEdge); end
-    --            end
-    --        end
-    --    end
-    --end
-
-    -- TODO: this is too complicated, I no longer understand it
     local box = {
         -- Z = left/right
         -- X = top/bottom

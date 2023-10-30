@@ -199,9 +199,10 @@ function initTurtle(shouldOrient, turtleCoordinates, turtleOrientation)
         },
         take = {
             fn = CMD.wrapCommand("take", function (params)
-                assert(params.direction);
                 assert(params.name);
-                local inventory = peripheral.wrap(params.direction);
+                local direction = params.direction or "front";
+
+                local inventory = peripheral.wrap(direction);
                 if not inventory then
                     return {
                         itemsTaken = 0,
@@ -212,7 +213,7 @@ function initTurtle(shouldOrient, turtleCoordinates, turtleOrientation)
                     itemsTaken = INV.takeItems(inventory, fitsPattern(params.name), params.count, function (countAlreadyTransferred)
                         local newParams = {
                             name = params.name,
-                            direction = params.direction,
+                            direction = direction,
                             count = params.count - countAlreadyTransferred
                         };
                         CMD.updateOwnState(newParams);
@@ -267,13 +268,20 @@ function initTurtle(shouldOrient, turtleCoordinates, turtleOrientation)
     makefile(TAG_FILE_PATH);
 
     -- functions for tagging locations and loading tags at startup
-    turtle.tagLocation = function (tag, position)
+    turtle.tagLocation = function (tag, direction, position)
         position = position or turtle.pos;
-        turtle.taggedPositions[tag] = position;
+        direction = direction or getCompassDirection(turtle.facing);
 
-        -- TODO: can I open a file with "rw" mode?
+        local entry = {
+            pos = position,
+            facing = direction
+        };
+        turtle.taggedPositions[tag] = entry;
+
+        local serializedEntry = vec2str(position) .. "|" .. direction;
+
         local tags = deserializePath(TAG_FILE_PATH);
-        tags[tag] = vec2str(position);
+        tags[tag] = serializedEntry
         serializePath(TAG_FILE_PATH, tags);
     end
 
@@ -286,7 +294,14 @@ function initTurtle(shouldOrient, turtleCoordinates, turtleOrientation)
     end
 
     -- load tags
-    turtle.taggedPositions = deserializePath(TAG_FILE_PATH, function (_, v) return str2vec(v) end);
+    turtle.taggedPositions = deserializePath(TAG_FILE_PATH, function (_, v)
+        local _, _, pos, dir = string.find(v, "(.+)|(.+)")
+        pos = str2vec(pos);
+        return {
+            pos = pos,
+            facing = dir
+        };
+    end);
 end
 
 
