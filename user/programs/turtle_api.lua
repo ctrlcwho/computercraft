@@ -77,8 +77,8 @@ function initTurtle(shouldOrient, turtleCoordinates, turtleOrientation)
         if turtleCoordinates and turtleOrientation then
             -- manually entered coordinates
             turtle.pos = turtleCoordinates;
-            turtle.facing = turtleOrientation;
-            turtle.compassDirection = getCompassDirection(turtle.facing);
+            turtle.facing = DIRECTION_TABLE[turtleOrientation];
+            turtle.compassDirection = turtleOrientation;
         else
             -- relative coordinates by default
             turtle.pos = vector.new(0, 0, 0);
@@ -171,6 +171,7 @@ function initTurtle(shouldOrient, turtleCoordinates, turtleOrientation)
     -- the last issued command is resumed on startup
 
     turtle.commands = {
+        -- TODO: handle new tag format
         goTo = {
             fn = CMD.wrapCommand("goTo", goTo),
             valueTransformer = function (k, v)
