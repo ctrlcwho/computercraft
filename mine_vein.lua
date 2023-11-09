@@ -1,10 +1,11 @@
 dofile("/user/programs/mine.lua");
 dofile("/user/programs/fuel.lua");
+dofile("/user/programs/utils.lua");
 
 args = {...}
 
-local direction = args[1] or "forward";
-local blocks = args[2];
+local direction = args[2] or "forward";
+local blocks = args[1];
 local inspectMethod = nil;
 
 if direction == "forward" then
