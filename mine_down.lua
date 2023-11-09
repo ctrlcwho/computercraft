@@ -22,7 +22,7 @@ local howFarDown = args[1];
 howFarDown = howFarDown and tonumber(howFarDown) or math.huge;
 
 local fastMode = args[2];
-fastMode = fastMode and toboolean(fastMode) or true;
+fastMode = fastMode == "true";
 
 local stepCount = 0;
 
