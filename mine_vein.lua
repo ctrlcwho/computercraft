@@ -31,7 +31,7 @@ end, function (isNotAir, block)
 
     if blocks then
         for blockPattern in string.gmatch(blocks, "([^,]+)") do
-            if block.name == blockPattern then return true end;
+            if fitsPattern(blockPattern)(block.name) then return true end;
         end
     else
         return block.name == firstBlock.name;
